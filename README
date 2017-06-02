@@ -1,0 +1,12 @@
+Clone the repository
+Edit the docker-compose with the needed informations (Hostname, mail, volumes)
+Run docker-compose up -d
+Get a free SSL certificate from letsencrypt running the command:  docker exec -it nextcloud_core /certbot.sh
+Adjust the DNS A record in order to point to your server
+Go to: https://nextcloud.yourserver.com
+Configure Nextcloud
+
+- Optionally -
+Remove the port 80 from docker-compose file, in order to take it accessible only via the 443 port
+
+Enjoy!

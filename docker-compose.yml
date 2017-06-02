@@ -1,0 +1,33 @@
+version: '2'
+services:
+  mysql:
+    image: mysql
+    container_name: mysql_nextcloud
+    restart: always
+    volumes:
+      - /mnt/docker-nextcloud/nextcloud_data/mysql/:/var/lib/mysql/
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: nextcloud_user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: database
+  nextcloud:
+    image: undeadhunter/nextcloud-letsencrypt
+    container_name: nextcloud_core
+    hostname: nextcloud.yourserver.com
+    depends_on:
+      - mysql
+    links:
+      - mysql:db
+    restart: always
+    volumes:
+      - /mnt/docker-nextcloud/nextcloud_data/user_data/:/var/www/html/data/
+      - /mnt/docker-nextcloud/nextcloud_data/config/:/var/www/html/config/
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      CERTBOT_DOMAIN: nextcloud.yourserver.com
+      CERTBOT_EMAIL: your_email
